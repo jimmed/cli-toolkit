@@ -1,4 +1,2 @@
-const interactiveSupported = () => {
-  throw new Error('TODO: interactiveSupported is not implemented');
-};
+const interactiveSupported = () => process.stdout.isTTY;
 export default interactiveSupported;
