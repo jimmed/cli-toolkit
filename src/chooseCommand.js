@@ -15,7 +15,7 @@ const chooseCommand = async (commands, argv) => {
   let matchedCommand = findCommand(commands, inputCommand);
   while (!matchedCommand) {
     if (!useInteractivePrompts) {
-      throw new MissingCommandError();
+      throw new MissingCommandError(inputCommand);
     } else {
       matchedCommand = findCommand(
         commands,
@@ -28,7 +28,7 @@ const chooseCommand = async (commands, argv) => {
   let parsedArgs = inputArgs;
   let errors = await validateArgs(matchedCommand, parsedArgs);
   if (!useInteractivePrompts && errors) {
-    throw new ArgumentValidationError(errors);
+    throw new ArgumentValidationError(errors, matchedCommand);
   }
 
   while (errors) {
