@@ -1,4 +1,4 @@
-import { createCli } from '../src';
+import createCli from '../src/createCli';
 
 describe('createCli', () => {
   it('should be a function', () => {
