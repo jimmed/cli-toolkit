@@ -8,6 +8,9 @@ import validateArgs from './validateArgs';
 import argPrompt from './argPrompt';
 import interactiveSupported from './interactiveSupported';
 
+// TODO: It feels like this function has too many responsibilities; much of the glue
+// should be moved to `createCli`, perhaps.
+
 export default async function chooseCommand(
   commands: Array<CommandDefinition<*>>,
   argv: typeof process.argv,
