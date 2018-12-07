@@ -4,6 +4,9 @@ import { TaskExecutionError } from './errors';
 import findTask from './findTask';
 import runTask from './runTask';
 
+/**
+ * Runs a command's task, handling any errors that may occur
+ */
 export default async function runCommand(
   { task: taskName }: CommandDefinition<*>,
   tasks: Array<TaskDefinition>,

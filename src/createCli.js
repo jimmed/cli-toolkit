@@ -4,17 +4,28 @@ import chooseCommand from './chooseCommand';
 import runCommand from './runCommand';
 import handleCliError from './handleCliError';
 
-// Create a CLI application based on a set of command sand tasks
+type CliOptionsInput = ?$Shape<CliOptions>;
+
+export const parseOptions = (options: CliOptionsInput) => {
+  const opts = options || {};
+  const argv = opts.argv || process.argv;
+  // eslint-disable-next-line no-console
+  const log = opts.log || console.log;
+  const shouldThrow = !!opts.shouldThrow;
+  return { argv, log, shouldThrow };
+};
+
+/**
+ * Creates a new CLI application based on a definition object.
+ * @param definition
+ */
 export default async function createCli({
   name,
   commands,
   tasks,
 }: CliDefinition) {
-  const cliCommand = async (options: ?$Shape<CliOptions>): * => {
-    const opts = options || {};
-    const argv = opts.argv || process.argv;
-    // eslint-disable-next-line no-console
-    const log = opts.log || console.log;
+  const cliCommand = async (options: CliOptionsInput): * => {
+    const { argv, log, shouldThrow } = parseOptions(options);
 
     let result;
     try {
@@ -22,7 +33,9 @@ export default async function createCli({
       result = await runCommand(command, tasks, args);
     } catch (error) {
       await handleCliError(error, log);
-      throw error;
+      if (shouldThrow) {
+        throw error;
+      }
     }
 
     return result;

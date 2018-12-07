@@ -6,6 +6,12 @@ import { MissingTaskError } from './errors';
 // unsettling; mostly because this throws an error when no match is found,
 // but `findCommand` does not.
 
+/**
+ * Finds a task by name from an array of tasks. If the task is not
+ * found, then a `MissingTaskError` is thrown.
+ * @param tasks
+ * @param taskName
+ */
 export default function findTask(
   tasks: Array<TaskDefinition>,
   taskName: $PropertyType<TaskDefinition, 'name'>,

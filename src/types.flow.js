@@ -46,4 +46,5 @@ export type ArgValidationErrors = {
 export type CliOptions = {
   argv: typeof process.argv,
   log: typeof console.log,
+  shouldThrow: boolean,
 };

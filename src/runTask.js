@@ -14,6 +14,16 @@ type ProgressState = {
   done: number,
 };
 
+/**
+ * Runs a task, allowing the task to add child tasks, and emit
+ * progress events as it goes.
+ *
+ * If the task (or one of its children) fails, then the task
+ * (and its children) will be undone.
+ * @param tasks
+ * @param task
+ * @param args
+ */
 export default async function runTask(
   tasks: Array<TaskDefinition>,
   task: TaskDefinition,
@@ -22,8 +32,13 @@ export default async function runTask(
   const childTasks: Array<ChildTaskDefinition> = [];
   let progress: ProgressState;
 
-  // Declare methods we will pass to our task runner method
   const actions = {
+    /**
+     * Adds a child task to execute, and returns a Promise
+     * which will resolve/reject based on the task outcome.
+     * @param childTaskName
+     * @param childArgs
+     */
     childTask(
       childTaskName: $PropertyType<TaskDefinition, 'name'>,
       childArgs: *,
@@ -36,22 +51,51 @@ export default async function runTask(
       };
       childTasks.push(childTask);
     },
+
+    /**
+     * Gets the current progress of the task
+     */
     getState(): ProgressState {
       return progress || { total: 0, done: 0 };
     },
+
+    /**
+     * Patches the task's current progress state with new values
+     * @param change
+     */
     setState(change: $Shape<ProgressState>) {
       progress = { ...this.getState(), ...change };
     },
+
+    /**
+     * Sets a new progress total for the task
+     * @param total
+     */
     setTotal(total: number) {
       this.setState({ total });
     },
+
+    /**
+     * Increments the progress total for the task
+     * @param delta
+     */
     incTotal(delta: number = 1) {
       const { total } = this.getState();
       this.setTotal(total + delta);
     },
+
+    /**
+     * Sets the progress completion for the task
+     * @param complete
+     */
     setComplete(complete: number) {
       this.setState({ complete });
     },
+
+    /**
+     * Increments the progress completion for the task
+     * @param delta
+     */
     incComplete(delta: number = 1) {
       const { complete } = this.getState();
       this.setComplete(complete + delta);

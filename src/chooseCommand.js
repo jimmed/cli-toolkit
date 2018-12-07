@@ -11,6 +11,14 @@ import interactiveSupported from './interactiveSupported';
 // TODO: It feels like this function has too many responsibilities; much of the glue
 // should be moved to `createCli`, perhaps.
 
+/**
+ * Takes a command and arguments from a user, parses them,
+ * and then (where possible) uses interactive prompts to fill
+ * in any missing information before returning both the chosen
+ * command, and the arguments.
+ * @param commands
+ * @param argv
+ */
 export default async function chooseCommand(
   commands: Array<CommandDefinition<*>>,
   argv: typeof process.argv,
