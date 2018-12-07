@@ -3,7 +3,7 @@ import { type TaskDefinition } from './types.flow';
 import findTask from './findTask';
 import undoTask from './undoTask';
 
-const runTask = async (
+export default async function runTask(
   tasks: Array<TaskDefinition>,
   task: TaskDefinition,
   args: *,
@@ -47,6 +47,4 @@ const runTask = async (
     // Throw the error on so
     throw error;
   }
-};
-
-export default runTask;
+}

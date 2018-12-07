@@ -1,9 +1,9 @@
 // @flow
 import { type CommandDefinition } from './types.flow';
 
-const findCommand = (
+export default function findCommand(
   commands: Array<CommandDefinition<*>>,
   commandName: $PropertyType<CommandDefinition<*>, 'name'>,
-) => commands.find(({ name }) => name === commandName);
-
-export default findCommand;
+) {
+  return commands.find(({ name }) => name === commandName);
+}

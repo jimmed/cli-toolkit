@@ -4,17 +4,15 @@ import { TaskExecutionError } from './errors';
 import findTask from './findTask';
 import runTask from './runTask';
 
-const runCommand = async (
+export default async function runCommand(
   { task: taskName }: CommandDefinition<*>,
   tasks: Array<TaskDefinition>,
   args: *,
-) => {
+) {
   const task = findTask(tasks, taskName);
   try {
     await runTask(tasks, task, args);
   } catch (error) {
     throw new TaskExecutionError(error, task);
   }
-};
-
-export default runCommand;
+}

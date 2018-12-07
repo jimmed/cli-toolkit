@@ -8,10 +8,10 @@ import validateArgs from './validateArgs';
 import argPrompt from './argPrompt';
 import interactiveSupported from './interactiveSupported';
 
-const chooseCommand = async (
+export default async function chooseCommand(
   commands: Array<CommandDefinition<*>>,
-  argv: *,
-) => {
+  argv: typeof process.argv,
+): Promise<[CommandDefinition<*>, *]> {
   const [inputCommand, inputArgs] = parseArgv(commands, argv);
   const useInteractivePrompts = inputArgs.interactive != null
     ? inputArgs.interactive
@@ -44,6 +44,4 @@ const chooseCommand = async (
   }
 
   return [matchedCommand, parsedArgs];
-};
-
-export default chooseCommand;
+}

@@ -1,7 +1,7 @@
 // @flow
 import { type TaskDefinition } from './types.flow';
 
-const undoTask = async (task: TaskDefinition, args: *) => {
+export default async function (task: TaskDefinition, args: *) {
   if (!task.undo) {
     return;
   }
@@ -11,6 +11,4 @@ const undoTask = async (task: TaskDefinition, args: *) => {
     // TODO: Find a better way to log this error (using log provided from options)
     console.warn(error); // eslint-disable-line no-console
   }
-};
-
-export default undoTask;
+}
