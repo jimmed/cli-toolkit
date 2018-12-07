@@ -1,3 +1,5 @@
+// @flow
+import { type CommandDefinition } from './types.flow';
 import { MissingCommandError, ArgumentValidationError } from './errors';
 import parseArgv from './parseArgv';
 import findCommand from './findCommand';
@@ -6,7 +8,21 @@ import validateArgs from './validateArgs';
 import argPrompt from './argPrompt';
 import interactiveSupported from './interactiveSupported';
 
-const chooseCommand = async (commands, argv) => {
+// TODO: It feels like this function has too many responsibilities; much of the glue
+// should be moved to `createCli`, perhaps.
+
+/**
+ * Takes a command and arguments from a user, parses them,
+ * and then (where possible) uses interactive prompts to fill
+ * in any missing information before returning both the chosen
+ * command, and the arguments.
+ * @param commands
+ * @param argv
+ */
+export default async function chooseCommand(
+  commands: Array<CommandDefinition<*>>,
+  argv: typeof process.argv,
+): Promise<[CommandDefinition<*>, *]> {
   const [inputCommand, inputArgs] = parseArgv(commands, argv);
   const useInteractivePrompts = inputArgs.interactive != null
     ? inputArgs.interactive
@@ -17,11 +33,8 @@ const chooseCommand = async (commands, argv) => {
     if (!useInteractivePrompts) {
       throw new MissingCommandError(inputCommand);
     } else {
-      matchedCommand = findCommand(
-        commands,
-        // eslint-disable-next-line no-await-in-loop
-        await commandSelectionPrompt(commands),
-      );
+      // eslint-disable-next-line no-await-in-loop
+      matchedCommand = await commandSelectionPrompt(commands);
     }
   }
 
@@ -39,6 +52,4 @@ const chooseCommand = async (commands, argv) => {
   }
 
   return [matchedCommand, parsedArgs];
-};
-
-export default chooseCommand;
+}
