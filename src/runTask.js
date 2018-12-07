@@ -1,7 +1,13 @@
+// @flow
+import { type TaskDefinition } from './types.flow';
 import findTask from './findTask';
 import undoTask from './undoTask';
 
-const runTask = async (tasks, task, args) => {
+const runTask = async (
+  tasks: Array<TaskDefinition>,
+  task: TaskDefinition,
+  args: *,
+): $Call<$PropertyType<TaskDefinition, 'run'>> => {
   const childTasks = [];
 
   // Declare methods we will pass to our task runner method

@@ -1,3 +1,5 @@
+// @flow
+import { type CommandDefinition } from './types.flow';
 import { MissingCommandError, ArgumentValidationError } from './errors';
 import parseArgv from './parseArgv';
 import findCommand from './findCommand';
@@ -6,7 +8,10 @@ import validateArgs from './validateArgs';
 import argPrompt from './argPrompt';
 import interactiveSupported from './interactiveSupported';
 
-const chooseCommand = async (commands, argv) => {
+const chooseCommand = async (
+  commands: Array<CommandDefinition<*>>,
+  argv: *,
+) => {
   const [inputCommand, inputArgs] = parseArgv(commands, argv);
   const useInteractivePrompts = inputArgs.interactive != null
     ? inputArgs.interactive

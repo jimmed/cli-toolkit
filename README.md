@@ -27,23 +27,23 @@ const myCliApplication = createCli({
   defaultCommand: "install",
   commands: [
     {
-      id: "add",
+      name: "add",
       args: [
         {
-          id: "package-specifier",
+          name: "package-specifier",
           type: "string",
           position: 0,
           required: true
         },
         {
-          id: "dev",
+          name: "dev",
           type: "boolean",
           default: false,
           alias: "d",
           conflicts: ["peer", "optional"]
         },
         {
-          id: "peer",
+          name: "peer",
           type: "boolean",
           default: false,
           alias: "p",
@@ -63,7 +63,7 @@ const myCliApplication = createCli({
   ],
   tasks: [
     {
-      id: "installPackage",
+      name: "installPackage",
       async run({ packageSpecifier, dev, peer }, { childTask }) {
         const dependencies = await childTask(
           "resolveDependencies",
