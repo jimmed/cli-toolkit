@@ -25,11 +25,8 @@ export default async function chooseCommand(
     if (!useInteractivePrompts) {
       throw new MissingCommandError(inputCommand);
     } else {
-      matchedCommand = findCommand(
-        commands,
-        // eslint-disable-next-line no-await-in-loop
-        await commandSelectionPrompt(commands),
-      );
+      // eslint-disable-next-line no-await-in-loop
+      matchedCommand = await commandSelectionPrompt(commands);
     }
   }
 
