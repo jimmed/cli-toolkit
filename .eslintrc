@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb-base",
+  "parser": "babel-eslint",
+  "plugins": ["flow"],
+  "rules": {
+    "max-len": 0
+  },
+  "globals": {
+    "$PropertyType": true,
+    "$Shape": true,
+    "$Values": true,
+    "$Call": true
+  }
+}
