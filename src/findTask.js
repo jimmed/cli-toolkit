@@ -13,10 +13,10 @@ import { MissingTaskError } from './errors';
  * @param taskName
  */
 export default function findTask(
-  tasks: Array<TaskDefinition>,
+  tasks: { [taskName: string]: TaskDefinition },
   taskName: $PropertyType<TaskDefinition, 'name'>,
 ) {
-  const matchedTask = tasks.find(({ name }) => name === taskName);
+  const matchedTask = tasks[taskName];
   if (!matchedTask) {
     throw new MissingTaskError(taskName);
   }

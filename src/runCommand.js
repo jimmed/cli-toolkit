@@ -9,7 +9,7 @@ import runTask from './runTask';
  */
 export default async function runCommand(
   { task: taskName }: CommandDefinition<*>,
-  tasks: Array<TaskDefinition>,
+  tasks: { [taskName: string]: TaskDefinition },
   args: *,
 ) {
   const task = findTask(tasks, taskName);

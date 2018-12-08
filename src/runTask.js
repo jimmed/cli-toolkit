@@ -25,7 +25,7 @@ type ProgressState = {
  * @param args
  */
 export default async function runTask(
-  tasks: Array<TaskDefinition>,
+  tasks: { [taskName: string]: TaskDefinition },
   task: TaskDefinition,
   args: *,
 ): $Call<$PropertyType<TaskDefinition, 'run'>> {
