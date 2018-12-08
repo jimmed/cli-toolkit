@@ -27,7 +27,7 @@ export type ArgsValidator<T = *> = (args: T) => void;
 
 export type CommandDefinition<T = *> = {
   name: string,
-  args: Array<ArgumentDefinition>,
+  args: { [argumentName: string]: ArgumentDefinition },
   validate?: ArgsValidator<T>,
   task: string,
 };
@@ -35,8 +35,8 @@ export type CommandDefinition<T = *> = {
 export type CliDefinition = {
   name?: string,
   defaultCommand: $PropertyType<CommandDefinition<*>, 'name'>,
-  commands: Array<CommandDefinition<*>>,
-  tasks: Array<TaskDefinition>,
+  commands: { [commandName: string]: CommandDefinition<*> },
+  tasks: { [taskName: string]: TaskDefinition },
 };
 
 export type ArgValidationErrors = {

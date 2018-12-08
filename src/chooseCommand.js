@@ -20,24 +20,25 @@ import interactiveSupported from './interactiveSupported';
  * @param argv
  */
 export default async function chooseCommand(
-  commands: Array<CommandDefinition<*>>,
+  commands: { [commandName: string]: CommandDefinition<*> },
   argv: typeof process.argv,
+  defaultCommand?: ?string,
 ): Promise<[CommandDefinition<*>, *]> {
-  const [inputCommand, inputArgs] = parseArgv(commands, argv);
-  const useInteractivePrompts = inputArgs.interactive != null
-    ? inputArgs.interactive
-    : interactiveSupported();
-
+  // Figure out which command the user wanted
+  const rawArgs = parseArgv(argv);
+  const useInteractivePrompts = rawArgs.interactive != null ? rawArgs.interactive : interactiveSupported();
+  const inputCommand = argv[2] || defaultCommand;
   let matchedCommand = findCommand(commands, inputCommand);
   while (!matchedCommand) {
     if (!useInteractivePrompts) {
-      throw new MissingCommandError(inputCommand);
+      throw new MissingCommandError(inputCommand || '(no command)');
     } else {
       // eslint-disable-next-line no-await-in-loop
       matchedCommand = await commandSelectionPrompt(commands);
     }
   }
 
+  const inputArgs = parseArgv(argv, matchedCommand);
   let parsedArgs = inputArgs;
   let errors = await validateArgs(matchedCommand, parsedArgs);
   if (!useInteractivePrompts && errors) {

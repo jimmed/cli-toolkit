@@ -1,4 +1,5 @@
 // @flow
+import argvToRawArgs from 'yargs-parser';
 import { type CommandDefinition } from './types.flow';
 
 /**
@@ -8,8 +9,8 @@ import { type CommandDefinition } from './types.flow';
  * @param argv
  */
 export default function parseArgv(
-  commands: Array<CommandDefinition<*>>,
   argv: typeof process.argv,
-): [CommandDefinition<*>, Object] {
-  throw new Error('TODO: parseArgv is not implemented');
+  command: ?CommandDefinition<*>,
+): { interactive?: boolean } {
+  return argvToRawArgs(argv, command && command.args);
 }

@@ -19,11 +19,7 @@ export const parseOptions = (options: CliOptionsInput) => {
  * Creates a new CLI application based on a definition object.
  * @param definition
  */
-export default async function createCli({
-  name,
-  commands,
-  tasks,
-}: CliDefinition) {
+export default function createCli({ commands, tasks }: CliDefinition) {
   const cliCommand = async (options: CliOptionsInput): * => {
     const { argv, log, shouldThrow } = parseOptions(options);
 
@@ -40,10 +36,6 @@ export default async function createCli({
 
     return result;
   };
-
-  if (name) {
-    cliCommand.name = name;
-  }
 
   return cliCommand;
 }

@@ -7,8 +7,8 @@ import { type CommandDefinition } from './types.flow';
  * @param commandName
  */
 export default function findCommand(
-  commands: Array<CommandDefinition<*>>,
-  commandName: $PropertyType<CommandDefinition<*>, 'name'>,
+  commands: { [commandName: string]: CommandDefinition<*> },
+  commandName: ?$PropertyType<CommandDefinition<*>, 'name'>,
 ) {
-  return commands.find(({ name }) => name === commandName);
+  return commandName && commands[commandName];
 }
