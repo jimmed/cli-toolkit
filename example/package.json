@@ -1,0 +1,17 @@
+{
+  "name": "cli-toolkit-example",
+  "private": true,
+  "scripts": {
+    "start": "babel-node src"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "cli-toolkit": "link:..",
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/node": "^7.2.0",
+    "@babel/preset-env": "^7.2.0"
+  }
+}
